@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/haseła/static/css/main.d5b61553.css",
-    "main.js": "/haseła/static/js/main.a5ecc1bf.js",
+    "main.js": "/haseła/static/js/main.5f01f0fa.js",
     "static/js/787.5d9f1f2d.chunk.js": "/haseła/static/js/787.5d9f1f2d.chunk.js",
     "index.html": "/haseła/index.html",
     "main.d5b61553.css.map": "/haseła/static/css/main.d5b61553.css.map",
-    "main.a5ecc1bf.js.map": "/haseła/static/js/main.a5ecc1bf.js.map",
+    "main.5f01f0fa.js.map": "/haseła/static/js/main.5f01f0fa.js.map",
     "787.5d9f1f2d.chunk.js.map": "/haseła/static/js/787.5d9f1f2d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d5b61553.css",
-    "static/js/main.a5ecc1bf.js"
+    "static/js/main.5f01f0fa.js"
   ]
 }
