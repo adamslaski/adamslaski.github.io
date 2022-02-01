@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+	<title>Blog Adama - Home</title>
+
+
+<meta name="description" content="O różnych rzeczach.
+">
+
+<link rel="icon" href="/blog/favicon.ico">
+<link rel="apple-touch-icon" href="/blog/favicon.ico">
+<link rel="stylesheet" href="/blog/css/main.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+<!-- math rendering with katex -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js" integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq" crossorigin="anonymous"></script>
+
+	</head>
+	<body>
+		<div class=topbar>
+    <div class=topbar-contents>
+        <a class=title href="/blog/">Blog Adama</a>
+        <nav>
+            
+                
+                
+                    <a class=navlink href="/blog/">Home</a>
+                
+            
+                
+                    <span>&bull;</span>
+                
+                
+                    <a class=navlink href="https://www.github.com/adamslaski">Github</a>
+                
+            
+                
+                    <span>&bull;</span>
+                
+                
+                    <a class=navlink href="https://www.linkedin.com/in/adam-slaski-632677b0/">LinkedIn</a>
+                
+            
+        </nav>
+    </div>
+</div>
+		<main>
+			<!-- This loops through the paginated posts -->
+
+  <div class=snippet>
+    <div class=title-box>
+        <a href="/blog/posts/how-to-play-hase%C5%82a/">
+          <div class=title>Jak grać w Haseła</div>
+          <div class=date>30 Jan 2022</div>
+        </a>
+    </div>
+    
+      <div class=excerpt><p>Stworzyłem niedawno polską wersję popularnych Wordli, czyli <a href="https://adamslaski.github.io/hase%C5%82a/">Haseła</a>. Podstawowe pytanie brzmi teraz: jak grać, żeby wygrać. Moim zdaniem najważniejsze jest dobre otwarcie, czyli takie które da nam największą szansę na dużo trafień.</p>
+
+<p>Po pierwsze, najpopularniejsze litery w naszym języku to: a, o, i, e, k, u, r, m, n, s, l, y itd. Można zatem spróbować zaczynać od słowa, które zawiera stosunkowo dużo liter z początku tej listy np. <em>adieu</em> lub <em>oazie</em>.
+Jeśli nie trafiliśmy wystarczająco wielu liter, by próbować odgadnąć hasło, w drugim kroku można zaryzykować <em>kurom</em>.</p>
+
+<p>Postanowiłem podejśc do sprawy naukowo i napisałem <a href="https://github.com/adamslaski/five-letters-tools">programik</a>, który spośród całego słownika dopuszczalnych słów wybierze optymalne otwarcie.</p>
+
+</div>
+      <div class=more><a href="/blog/posts/how-to-play-hase%C5%82a/"></a>- Read more -</a></div>
+    
+  </div>
+
+
+<!-- Pagination links -->
+
+			<footer>
+    <p>&copy; 2022 Adam Slaski<br />
+        Based on <a href=http://www.github.com/ezrasavard/israh-jekyll-theme>Israh Theme</a></p>
+</footer>
+		</main>
+		<script>
+			$("script[type='math/tex']").replaceWith(function() {
+				var tex = $(this).text();
+				return katex.renderToString(tex, {displayMode: false});
+			});
+			$("script[type='math/tex; mode=display']").replaceWith(function() {
+				var tex = $(this).html();
+				return katex.renderToString(tex.replace(/%.*/g, ''), {displayMode: true});
+			});
+		  </script>
+	</body>
+</html>
+
