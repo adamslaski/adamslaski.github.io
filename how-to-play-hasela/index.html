@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+  <title>Jak grać w Haseła</title>
+
+
+  <meta name="description"
+    content="Stworzyłem niedawno polską wersję popularnych Wordli, czyli Haseła. Podstawowe pytanie brzmi teraz: jak grać, żeby wygrać.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"
+    integrity="sha384-TEMocfGvRuD1rIAacqrknm5BQZ7W7uWitoih+jMNFXQIbNl16bO8OZmylH/Vi/Ei" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"
+    integrity="sha384-jmxIlussZWB7qCuB+PgKG1uLjjxbVVIayPJwi6cG6Zb4YKq0JIw+OMnkkEC7kYCq"
+    crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      line-height: 28px;
+      font-size: 13pt;
+      background-color: #fbfbfb;
+      font-family: "Open Sans", sans-serif;
+      font-weight: 400;
+      color: #4a4a4a;
+    }
+
+    .content {
+      width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    p,
+    table {
+      margin-top: 10px;
+    }
+
+    .data-table {
+      width: 600px;
+    }
+
+    h1,
+    h2 {
+      font-family: 'Montserrat', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <span class="content">
+    <h2>Adam Slaski</h2>
+    <h1>Jak grać w Haseła</h1>
+
+    <p>Stworzyłem niedawno polską wersję popularnych Wordli, czyli <a
+        href="https://adamslaski.github.io/hase%C5%82a/">Haseła</a>. Podstawowe pytanie brzmi teraz: jak grać, żeby
+      wygrać. Moim zdaniem najważniejsze jest dobre otwarcie, czyli takie które da nam największą szansę na dużo
+      trafień.
+    </p>
+
+    <p>Po pierwsze, najpopularniejsze litery w naszym języku to: a, o, i, e, k, u, r, m, n, s, l, y itd. Można zatem
+      spróbować zaczynać od słowa, które zawiera stosunkowo dużo liter z początku tej listy np. <em>adieu</em> lub
+      <em>oazie</em>.
+      Jeśli nie trafiliśmy wystarczająco wielu liter, by próbować odgadnąć hasło, w drugim kroku można zaryzykować
+      <em>kurom</em>.
+    </p>
+
+    <p>Postanowiłem podejśc do sprawy naukowo i napisałem prosty <a
+        href="https://github.com/adamslaski/five-letters-tools">program</a>, który spośród całego słownika
+      dopuszczalnych
+      słów wybierze optymalne otwarcie.
+      <!--more-->
+      Co dkoładnie liczę? Do głowy przyszły mi dwie metryki, które można dowolnie ze sobą połączyć.
+    </p>
+
+    <p><strong>Metryka podstawowa</strong> czyli ile liter dane słowo zapali na klawiaturze. Jeden punkt za każdą
+      literę.
+      Sumujemy dla danego słowa po wszystkich dopuszczalnych hasłach i w ten sposób uzyskujemy wynik.</p>
+
+    <p>Punktacja w petryce podstawowej kształtuje się następująco:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo</th>
+          <th style="text-align: center">Metryka podstawowa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: center">1</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">nikle</td>
+          <td style="text-align: center">2</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: center">1</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">plażą</td>
+          <td style="text-align: center">2</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">dębów</td>
+          <td style="text-align: center">0</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">manie</td>
+          <td style="text-align: center">2</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Zgodnie z metryką podstawową spośród wszystkich słów w słowniku najlepszym słowem na otwarcie jest
+      <em>okrai</em>.
+    </p>
+
+    <p><strong>Metryka pozycyjna</strong> polega jak nietrudno się domyślić na zliczaniu zielonych liter. Dodatkowo
+      rozważam <strong>metrykę łączoną</strong>, polegającą na zsumowaniu wyników metryk podstawowej i pozycyjnej.</p>
+
+    <p>Zobaczmy to na przykładzie. Poniżej zrzut ekranu z przegranej partii, w której gracz nie odgadł hasła
+      <em>slang</em>.
+    </p>
+
+    <p><img alt="screenshot" src="screenshot-hasela.png" /></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo</th>
+          <th style="text-align: center">Metryka podstawowa</th>
+          <th style="text-align: center">Metryka pozycyjna</th>
+          <th style="text-align: center">Metryka łączona</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">1</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">nikle</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">2</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">1</td>
+          <td style="text-align: center">2</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">plażą</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">4</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">dębów</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">0</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">manie</td>
+          <td style="text-align: center">2</td>
+          <td style="text-align: center">0</td>
+          <td style="text-align: center">2</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>W ten sposób wyliczyłem optymalne otwarcia. Czoło tabeli kształtuje się następuąco:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left">Miejsce</th>
+          <th style="text-align: left">podstawowa</th>
+          <th style="text-align: left">pozycyjna</th>
+          <th style="text-align: left">łączona</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left"><strong>1</strong></td>
+          <td style="text-align: left">okrai</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">mario</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>2</strong></td>
+          <td style="text-align: left">kolia</td>
+          <td style="text-align: left">warka</td>
+          <td style="text-align: left">kasie</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>3</strong></td>
+          <td style="text-align: left">kanio</td>
+          <td style="text-align: left">karki</td>
+          <td style="text-align: left">kanie</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>A co jeśli pierwsze słowo ujawni zbyt mało liter, by rozpocząć normalne zgadywanie? Z mojego doświadczenia
+      wynika,
+      że to częsta sytuacja, więc policzyłem również optymalne pary na otwarcie. Są to (podaję tylko liderów, tabele na
+      końcu artykułu):</p>
+
+    <ul>
+      <li>Podstawowa: <em>aurom klnie</em>,</li>
+      <li>Pozycyjna: <em>koany sarka</em>,</li>
+      <li>Łączona: <em>manie sorku</em>.</li>
+    </ul>
+
+    <p>W tym miejscu warto się na chwilę zatrzymać i zwrócić uwagę na kilka rzeczy. Primo – w naszym zestawieniu
+      nadzwyczaj dobrze wypadają słowa związane z narzekaniem. Ponadto wyjaśnijmy, że <em>koan</em> to buddyjska
+      przypowieść, a <em>sorek</em> oznacza ryjówkę.</p>
+
+    <p>Co robimy dalej, jeśli dwa słowa dały nam niewiele albo wcale? Najlepiej byłoby policzyć wszystkie trójki słów i
+      znaleźć optymalne. Niestety, wszystkie trójki to ogromna liczba! Takie obliczenia dalece przekraczają skromne
+      możliwośći mojego laptopa. Zdajmy sobie sprawę, o jakiej skali mówimy. Dopuszczalnych wyrazów jest 28019. Każdą
+      trójkę trzeba dodatkowo przemnożyć przez wielkość słownika, bo przecież sumujemy wartość obliczamy dla każdego
+      możliwego hasła. To daje nam</p>
+
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math>
+            <semantics>
+              <mrow>
+                <mn>2</mn>
+                <mn>8</mn>
+                <mn>0</mn>
+                <mn>1</mn>
+                <msup>
+                  <mn>9</mn>
+                  <mn>4</mn>
+                </msup>
+                <mo>=</mo>
+                <mn>6</mn>
+                <mn>1</mn>
+                <mn>6</mn>
+                <mn>3</mn>
+                <mn>2</mn>
+                <mn>6</mn>
+                <mn>0</mn>
+                <mn>5</mn>
+                <mn>0</mn>
+                <mn>9</mn>
+                <mn>1</mn>
+                <mn>2</mn>
+                <mn>3</mn>
+                <mn>3</mn>
+                <mn>8</mn>
+                <mn>3</mn>
+                <mn>2</mn>
+                <mn>1</mn>
+              </mrow>
+              <annotation encoding="application/x-tex">28019^4 = 616326050 912338321</annotation>
+            </semantics>
+          </math></span><span class="katex-html" aria-hidden="true"><span class="strut"
+            style="height:0.8641079999999999em;"></span><span class="strut bottom"
+            style="height:0.8641079999999999em;vertical-align:0em;"></span><span class="base"><span
+              class="mord">2</span><span class="mord">8</span><span class="mord">0</span><span
+              class="mord">1</span><span class="mord"><span class="mord">9</span><span class="msupsub"><span
+                  class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641079999999999em;"><span
+                        style="top:-3.113em;margin-right:0.05em;"><span class="pstrut"
+                          style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span
+                            class="mord mtight">4</span></span></span></span></span></span></span></span><span
+              class="mord rule" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span
+              class="mord rule" style="margin-right:0.2777777777777778em;"></span><span class="mord">6</span><span
+              class="mord">1</span><span class="mord">6</span><span class="mord">3</span><span
+              class="mord">2</span><span class="mord">6</span><span class="mord">0</span><span
+              class="mord">5</span><span class="mord">0</span><span class="mord">9</span><span
+              class="mord">1</span><span class="mord">2</span><span class="mord">3</span><span
+              class="mord">3</span><span class="mord">8</span><span class="mord">3</span><span
+              class="mord">2</span><span class="mord">1</span></span></span></span></span>
+    <p>operacji do wykonania. Nawet gdyby założyć optymistycznie, że jesteśmy w stanie sprawdzić w sekundę miliard
+      kombinacji, całe to obliczenie zajęłoby 19 lat.</p>
+
+    <p>W związku z powyższym przyjąłem założenie, że zaczynamy zawsze od dwóch dobrych słów i do nich ewentualnie
+      dopasowyjemy trzecie, czwarte a nawet piąte. W ten sposób ustaliłem następujący katalog dobrych otwarć:</p>
+
+    <p>Metryka podstawowa:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">okrai</td>
+          <td style="text-align: left">41799</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolia</td>
+          <td style="text-align: left">40421</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanio</td>
+          <td style="text-align: left">40398</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">amoki</td>
+          <td style="text-align: left">40552</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">areko</td>
+          <td style="text-align: left">40887</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalio</td>
+          <td style="text-align: left">40421</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">armio</td>
+          <td style="text-align: left">40460</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">miaro</td>
+          <td style="text-align: left">40460</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">ramio</td>
+          <td style="text-align: left">40460</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">ariom</td>
+          <td style="text-align: left">40460</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">akrem</td>
+          <td style="text-align: left">inulo</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: left">nikle</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aliom</td>
+          <td style="text-align: left">runek</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akrom</td>
+          <td style="text-align: left">lunie</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akrom</td>
+          <td style="text-align: left">inule</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akron</td>
+          <td style="text-align: left">umiel</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akron</td>
+          <td style="text-align: left">lumie</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: left">klnie</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">alium</td>
+          <td style="text-align: left">rekon</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: left">kelin</td>
+          <td style="text-align: left">71521</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">akrem</td>
+          <td style="text-align: left">inulo</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">alium</td>
+          <td style="text-align: left">rekon</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aliom</td>
+          <td style="text-align: left">kurne</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aliom</td>
+          <td style="text-align: left">runek</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: left">nikle</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akron</td>
+          <td style="text-align: left">ulemi</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: left">kelin</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">almei</td>
+          <td style="text-align: left">nurko</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">alkom</td>
+          <td style="text-align: left">urnie</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">almei</td>
+          <td style="text-align: left">runko</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">94571</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Słowo 4</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">akrem</td>
+          <td style="text-align: left">inulo</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">almei</td>
+          <td style="text-align: left">kronu</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akron</td>
+          <td style="text-align: left">umiel</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aliom</td>
+          <td style="text-align: left">runek</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">alium</td>
+          <td style="text-align: left">rekon</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">alkom</td>
+          <td style="text-align: left">urnie</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aliom</td>
+          <td style="text-align: left">kurne</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akrom</td>
+          <td style="text-align: left">lunie</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">alium</td>
+          <td style="text-align: left">nerko</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">alium</td>
+          <td style="text-align: left">norek</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">111356</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Słowo 4</th>
+          <th style="text-align: left">Słowo 5</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">akrem</td>
+          <td style="text-align: left">inulo</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">głębi</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: left">nikle</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">zgłęb</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aliom</td>
+          <td style="text-align: left">runek</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">głębi</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akrem</td>
+          <td style="text-align: left">inulo</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">zgłęb</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akrem</td>
+          <td style="text-align: left">inulo</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">wgłęb</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">almei</td>
+          <td style="text-align: left">kronu</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">zgłęb</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">akron</td>
+          <td style="text-align: left">umiel</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">wgłęb</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aliom</td>
+          <td style="text-align: left">nurek</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">zgłęb</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">alkom</td>
+          <td style="text-align: left">urnie</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">głębi</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">aurom</td>
+          <td style="text-align: left">nikle</td>
+          <td style="text-align: left">sztyc</td>
+          <td style="text-align: left">pądów</td>
+          <td style="text-align: left">wgłęb</td>
+          <td style="text-align: left">123135</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Metryka pozycyjna:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">13774</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">warka</td>
+          <td style="text-align: left">13208</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">karki</td>
+          <td style="text-align: left">13226</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">sarną</td>
+          <td style="text-align: left">13578</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">parką</td>
+          <td style="text-align: left">13739</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">parkę</td>
+          <td style="text-align: left">13376</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">parka</td>
+          <td style="text-align: left">13597</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">marką</td>
+          <td style="text-align: left">13245</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">parea</td>
+          <td style="text-align: left">13250</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">sarnę</td>
+          <td style="text-align: left">13215</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">koany</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">25216</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">koany</td>
+          <td style="text-align: left">parką</td>
+          <td style="text-align: left">25181</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolią</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">25085</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalia</td>
+          <td style="text-align: left">sorką</td>
+          <td style="text-align: left">25085</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalka</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">25085</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalią</td>
+          <td style="text-align: left">sorka</td>
+          <td style="text-align: left">25085</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalką</td>
+          <td style="text-align: left">soria</td>
+          <td style="text-align: left">25085</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">koany</td>
+          <td style="text-align: left">parka</td>
+          <td style="text-align: left">25039</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanka</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">25035</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanią</td>
+          <td style="text-align: left">sorka</td>
+          <td style="text-align: left">25035</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">kolią</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">35929</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalia</td>
+          <td style="text-align: left">sorką</td>
+          <td style="text-align: left">pianę</td>
+          <td style="text-align: left">35643</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolią</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">pianę</td>
+          <td style="text-align: left">35643</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalka</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">35929</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalia</td>
+          <td style="text-align: left">sorką</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">35929</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolia</td>
+          <td style="text-align: left">parką</td>
+          <td style="text-align: left">siany</td>
+          <td style="text-align: left">35929</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalką</td>
+          <td style="text-align: left">soria</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">35929</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">koany</td>
+          <td style="text-align: left">parka</td>
+          <td style="text-align: left">sunią</td>
+          <td style="text-align: left">35765</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">koany</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">pisią</td>
+          <td style="text-align: left">35666</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kaika</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">35783</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Słowo 4</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">kolią</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">45030</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanką</td>
+          <td style="text-align: left">soria</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">mulem</td>
+          <td style="text-align: left">44925</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kaika</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">44884</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalia</td>
+          <td style="text-align: left">sorką</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">45030</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalka</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">45030</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolia</td>
+          <td style="text-align: left">parką</td>
+          <td style="text-align: left">siany</td>
+          <td style="text-align: left">munem</td>
+          <td style="text-align: left">44925</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalka</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">munem</td>
+          <td style="text-align: left">44925</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalką</td>
+          <td style="text-align: left">soria</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">munem</td>
+          <td style="text-align: left">44925</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanią</td>
+          <td style="text-align: left">sorka</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">mulem</td>
+          <td style="text-align: left">44925</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanka</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">mulem</td>
+          <td style="text-align: left">44925</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Słowo 4</th>
+          <th style="text-align: left">Słowo 5</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">kolią</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">mesle</td>
+          <td style="text-align: left">53216</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kaika</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">mesle</td>
+          <td style="text-align: left">53070</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">koany</td>
+          <td style="text-align: left">sarka</td>
+          <td style="text-align: left">pinią</td>
+          <td style="text-align: left">mulem</td>
+          <td style="text-align: left">wetrę</td>
+          <td style="text-align: left">53064</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalka</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">mesle</td>
+          <td style="text-align: left">53216</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalia</td>
+          <td style="text-align: left">sorką</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">mesle</td>
+          <td style="text-align: left">53216</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalką</td>
+          <td style="text-align: left">soria</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">metce</td>
+          <td style="text-align: left">53205</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanką</td>
+          <td style="text-align: left">soria</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">mulem</td>
+          <td style="text-align: left">wetrę</td>
+          <td style="text-align: left">53064</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolia</td>
+          <td style="text-align: left">parką</td>
+          <td style="text-align: left">siany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">metce</td>
+          <td style="text-align: left">53205</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kaika</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">belce</td>
+          <td style="text-align: left">53182</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalka</td>
+          <td style="text-align: left">sorią</td>
+          <td style="text-align: left">piany</td>
+          <td style="text-align: left">wunem</td>
+          <td style="text-align: left">metce</td>
+          <td style="text-align: left">53205</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Metryka łączona:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">mario</td>
+          <td style="text-align: left">52927</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kasie</td>
+          <td style="text-align: left">51071</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanie</td>
+          <td style="text-align: left">51351</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kanio</td>
+          <td style="text-align: left">52707</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kalio</td>
+          <td style="text-align: left">52780</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">konia</td>
+          <td style="text-align: left">51517</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">mareo</td>
+          <td style="text-align: left">51748</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">naroi</td>
+          <td style="text-align: left">51419</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">marei</td>
+          <td style="text-align: left">51136</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">ramio</td>
+          <td style="text-align: left">51097</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">manie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">94704</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">manku</td>
+          <td style="text-align: left">sorie</td>
+          <td style="text-align: left">94704</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">marku</td>
+          <td style="text-align: left">sonie</td>
+          <td style="text-align: left">94704</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">marko</td>
+          <td style="text-align: left">sunie</td>
+          <td style="text-align: left">94289</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolie</td>
+          <td style="text-align: left">sarny</td>
+          <td style="text-align: left">94229</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">korny</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">94229</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kurio</td>
+          <td style="text-align: left">salem</td>
+          <td style="text-align: left">94202</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">94171</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">karem</td>
+          <td style="text-align: left">sunio</td>
+          <td style="text-align: left">94129</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kurio</td>
+          <td style="text-align: left">sanem</td>
+          <td style="text-align: left">94129</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">kolie</td>
+          <td style="text-align: left">sarny</td>
+          <td style="text-align: left">muczą</td>
+          <td style="text-align: left">126008</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">dymną</td>
+          <td style="text-align: left">124685</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">karem</td>
+          <td style="text-align: left">sunio</td>
+          <td style="text-align: left">wytlą</td>
+          <td style="text-align: left">124600</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kurio</td>
+          <td style="text-align: left">salem</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">125310</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">korny</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">muczą</td>
+          <td style="text-align: left">126008</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">korny</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">125228</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">125279</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">wymnę</td>
+          <td style="text-align: left">124751</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">marko</td>
+          <td style="text-align: left">sunie</td>
+          <td style="text-align: left">wytlą</td>
+          <td style="text-align: left">124760</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kurie</td>
+          <td style="text-align: left">salom</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">125175</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Słowo 4</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">149718</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">korny</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">wpitą</td>
+          <td style="text-align: left">148759</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolie</td>
+          <td style="text-align: left">sarny</td>
+          <td style="text-align: left">muczą</td>
+          <td style="text-align: left">bitwę</td>
+          <td style="text-align: left">148792</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kurio</td>
+          <td style="text-align: left">salem</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">piczę</td>
+          <td style="text-align: left">149257</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">meczę</td>
+          <td style="text-align: left">149395</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">manku</td>
+          <td style="text-align: left">sorie</td>
+          <td style="text-align: left">wytlą</td>
+          <td style="text-align: left">piczę</td>
+          <td style="text-align: left">149122</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">wymnę</td>
+          <td style="text-align: left">tuczą</td>
+          <td style="text-align: left">148916</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">korny</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">bitwą</td>
+          <td style="text-align: left">148792</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">korny</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">muczą</td>
+          <td style="text-align: left">bitwę</td>
+          <td style="text-align: left">148792</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">mętny</td>
+          <td style="text-align: left">widzą</td>
+          <td style="text-align: left">148789</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="text-align: left">Słowo 1</th>
+          <th style="text-align: left">Słowo 2</th>
+          <th style="text-align: left">Słowo 3</th>
+          <th style="text-align: left">Słowo 4</th>
+          <th style="text-align: left">Słowo 5</th>
+          <th style="text-align: left">Liczba punktów</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">kolie</td>
+          <td style="text-align: left">sarny</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">pełtą</td>
+          <td style="text-align: left">bidów</td>
+          <td style="text-align: left">167961</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">meczę</td>
+          <td style="text-align: left">bidła</td>
+          <td style="text-align: left">167305</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">bidło</td>
+          <td style="text-align: left">167072</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">palie</td>
+          <td style="text-align: left">sorku</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">bidła</td>
+          <td style="text-align: left">167628</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">korny</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">pełtą</td>
+          <td style="text-align: left">bidów</td>
+          <td style="text-align: left">167961</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kurom</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">piczę</td>
+          <td style="text-align: left">bodły</td>
+          <td style="text-align: left">167625</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kurio</td>
+          <td style="text-align: left">salem</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">piczę</td>
+          <td style="text-align: left">bodła</td>
+          <td style="text-align: left">167695</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolie</td>
+          <td style="text-align: left">sarny</td>
+          <td style="text-align: left">muczę</td>
+          <td style="text-align: left">pełtą</td>
+          <td style="text-align: left">gidów</td>
+          <td style="text-align: left">167307</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kurom</td>
+          <td style="text-align: left">salie</td>
+          <td style="text-align: left">wytną</td>
+          <td style="text-align: left">piczę</td>
+          <td style="text-align: left">bodła</td>
+          <td style="text-align: left">167560</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">kolie</td>
+          <td style="text-align: left">sarny</td>
+          <td style="text-align: left">muczą</td>
+          <td style="text-align: left">bitwę</td>
+          <td style="text-align: left">pedał</td>
+          <td style="text-align: left">167486</td>
+        </tr>
+      </tbody>
+    </table>
+  </span>
+</body>
