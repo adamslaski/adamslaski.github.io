@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Golden Hour</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/suncalc3@2.0.5/suncalc.js" crossorigin=""></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-size: small;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .leaflet-container {
+            height: 800px;
+            width: 1200px;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+
+<div id="header"></div>
+<div id="map" style="width: 1200px; height: 800px;"></div>
+<script>
+    // Gdańsk
+    const x = 54.348;
+    const y = 18.6525889;
+    const map = L.map('map').setView([x,y], 13);
+    setHeader(x, y);
+
+
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude
+            map.setView([lat, lng], 13);
+            setHeader(lat, lng);
+        });} 
+
+    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    const distance = 20;
+    const R = 6378;
+
+    let polygon = undefined;
+
+    function onMapClick(e) {
+        let { lat, lng } = e.latlng;
+        let { lat:lat2, lng:lng2 } = getPoint(e.latlng, getSunsetAzimuth(lat, lng));
+        let { lat:lat3, lng:lng3 } = getPoint(e.latlng, getGoldenAzimuth(lat, lng));
+
+        setHeader(lat, lng);
+
+        if (polygon) {
+            polygon.removeFrom(map);
+        }
+        polygon = L.polygon([
+            [lat, lng],
+            [lat2, lng2],
+            [lat3, lng3]
+        ], { color: '#996515'}).addTo(map);
+    }
+
+    map.on('click', onMapClick);
+
+    function setHeader(lat, lng) {
+        const header = document.getElementById('header');
+        header.innerHTML = getGoldenTime(lat, lng);
+    }
+
+    function getSunsetAzimuth(lat, lng) {
+        console.log('getSunsetAzimuth(lat, lng)', lat, lng);
+        const times = SunCalc.getSunTimes(new Date(), lat, lng);
+        const sunsetPos = SunCalc.getPosition(times.sunsetStart.value, lat, lng);
+        console.log("sunsetPos", sunsetPos); 
+        return sunsetPos.azimuth;
+    }
+
+    function getGoldenAzimuth(lat, lng) {
+        const times = SunCalc.getSunTimes(new Date(), lat, lng);
+        const goldenPos = SunCalc.getPosition(times.goldenHourDuskStart.value, lat, lng);
+        console.log("goldenPos", goldenPos); 
+        return goldenPos.azimuth;
+    }
+    
+    function getGoldenTime(lat, lng) {
+        function hhmm(d) {
+            return (""+d.getHours()).padStart(2, '0') + ":" + (""+d.getMinutes()).padStart(2, '0');
+        }
+        const times = SunCalc.getSunTimes(new Date(), lat, lng);
+        const tz = times.goldenHourDuskStart.value.toLocaleDateString(undefined, {day:'2-digit',timeZoneName: 'long' }).substring(4);
+        return "Golden hour: " + hhmm(times.goldenHourDuskStart.value) + " — " + hhmm(times.goldenHourDuskEnd.value) + " (" + tz + ")";
+    }
+
+    function getPoint(latlng, azimuth) {
+        const brng = azimuth;
+        const d = distance;
+
+        const { lat, lng } = latlng;
+        const lat1 = lat * Math.PI / 180.0;
+        const lng1 = lng * Math.PI / 180.0;
+
+        const lat2 = Math.asin(
+            Math.sin(lat1)*Math.cos(d/R) +
+            Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng) );
+        const lng2 = lng1 + Math.atan2(
+            Math.sin(brng)*Math.sin(d/R)*Math.cos(lat1),
+            Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
+
+        const latang = lat2 * 180.0 / Math.PI; 
+        const lngang = lng2 * 180.0 / Math.PI; 
+
+        return { lat: latang, lng: lngang };
+    }
+
+</script>
+</body>
+</html>
